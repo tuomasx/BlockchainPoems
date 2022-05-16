@@ -20,6 +20,14 @@ contract poemContract {
         addPoem("Tekija", "nimi", "liirum laarum");
     }
 
+    function getPoemName(uint number) public view returns (string memory) {
+        return myPoemList[msg.sender][number].poemName;
+    }
+
+    function getMyPoemCount() public view returns (uint) {
+        return counter[msg.sender];
+    }
+
     function checkPoemsNames(string memory _poemName) private view returns (bool) {
         for (uint i = 0; i < myPoemList[msg.sender].length; i++) {
             if (keccak256(abi.encodePacked(_poemName)) == keccak256(abi.encodePacked(myPoemList[msg.sender][i].poemName))) {

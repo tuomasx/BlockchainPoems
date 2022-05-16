@@ -4,15 +4,15 @@ import { Drizzle } from "@drizzle/store";
 import { newContextComponents } from "@drizzle/react-components";
 import "./App.css";
 import Web3 from "web3";
-import poemContract from "./artifacts/poemContract.json"; 
+import geoCacheContract from "./artifacts/geoCacheContract.json"; 
 
 const { AccountData, ContractData, ContractForm } = newContextComponents;
 const options = {
   web3: {
     block: false,
-    customProvider: new Web3(Web3.givenProvider || "http://localhost:7545"),
+    customProvider: new Web3("ws://localhost:7545"),
   },
-  contracts: [poemContract],
+  contracts: [geoCacheContract],
   events: {
     
   },
@@ -24,7 +24,7 @@ if (formValue == null) {
 } 
 const drizzle = new Drizzle(options);
 
-class GetPoemForm extends React.Component {
+class GetCacheForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -49,10 +49,10 @@ class GetPoemForm extends React.Component {
   render() {
     return (
       <div style={{display: 'grid',  justifyContent:'center', alignItems:'center'}}>
-        <h3> Enter the name of the poem to fetch </h3>
+        <h3> Enter the id of your cache to fetch </h3>
         <form onSubmit={this.handleSubmit}>
           <label>
-            {"Enter the poem name: \t"}
+            {"Enter the ID: \t"}
             <textarea value={this.state.value} onChange={this.handleChange} />
           </label>
           <input type="submit" value="Submit" />
@@ -78,7 +78,7 @@ class DrizzleReactComponent extends React.Component {
           return (
             <div className="App">
               <div>
-                <h1>Blockchain poems</h1>
+                <h1>Blockchain geocaches</h1>
               </div>
 
               <div className="section">
@@ -92,34 +92,34 @@ class DrizzleReactComponent extends React.Component {
                 />
               </div>
               <div className="section">
-                <h2>Poem Contract interface</h2>
+                <h2>GeoCache Contract interface</h2>
                 <p>
-                  Currently it stores and adds some templates. From the field below, you can add more poems with a given name.
+                  Currently it stores and adds some templates. From the field below, you can add more caches with a given identifier.
                 </p>
 
                 <ContractForm 
                   drizzle={drizzle} 
-                  contract="poemContract"
-                  method="addPoem"            
+                  contract="geoCacheContract"
+                  method="addGeoCache"            
                   sendArgs={{gas: 500000}}/>
 
                 <p>
-                  <strong>Fetched poem name: </strong>
+                  <strong>Fetched cache name: </strong>
                   <ContractData
                     drizzle={drizzle}
                     drizzleState={drizzleState}
-                    contract="poemContract"
-                    method="getPoemName"
+                    contract="geoCacheContract"
+                    method="getName"
                     methodArgs={[formValue]}
                   />
                 </p> 
                 <p>
-                  <strong>Total poems authored: </strong>
+                  <strong>Total caches found: </strong>
                   <ContractData
                     drizzle={drizzle}
                     drizzleState={drizzleState}
-                    contract="poemContract"
-                    method="getMyPoemCount"
+                    contract="geoCacheContract"
+                    method="getMyTotal"
                   />
                 </p> 
 
@@ -140,7 +140,7 @@ function App() {
     <div>
     <div style={{display: 'grid',  justifyContent:'center', alignItems:'center', height: 'auto'}}>
       <DrizzleReactComponent/>
-      <GetPoemForm/>
+      <GetCacheForm/>
     </div>
 
 

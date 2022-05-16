@@ -42,10 +42,10 @@ module.exports = {
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
 
-    Development:{
+    development:{
       host: "127.0.0.1",
-      Port: 7545,
-      Network_id: "*",
+      port: 7545,
+      network_id: "*",
     }
 
     //
