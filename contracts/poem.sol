@@ -28,7 +28,7 @@ contract poemContract {
         return counter[msg.sender];
     }
 
-    function poemContentByName(string _poemName) public view returns (string memory) {
+    function poemContentByName(string memory _poemName) public view returns (string memory) {
         for (uint i = 0; i < myPoemList[msg.sender].length; i++) {
             if (keccak256(abi.encodePacked(_poemName)) == keccak256(abi.encodePacked(myPoemList[msg.sender][i].poemName))) {
                 return myPoemList[msg.sender][i].poemContent;
