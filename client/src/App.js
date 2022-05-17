@@ -19,10 +19,10 @@ const options = {
 };
 
 //var formValue = localStorage.getItem('SelectedOption');
-let formValue = null;
-if (formValue == null) {
-  formValue = 0;
-} 
+//let formValue = null;
+//if (formValue == null) {
+//  formValue = 0;
+//} 
 const drizzle = new Drizzle(options);
 
 class GetPoemForm extends React.Component {
@@ -41,16 +41,15 @@ class GetPoemForm extends React.Component {
   }
 
   handleSubmit(event) {
-    localStorage.setItem( 'SelectedOption', this.state.value );
-    formValue = this.state.value;
-    console.log(formValue);
-    
+    this.props.callback(this.state.value);
+    event.preventDefault();
   }
 
   render() {
     return (
       <div style={{display: 'grid',  justifyContent:'center', alignItems:'center'}}>
-        <h3> Enter the name of the poem to fetch </h3>
+        <p> Enter the name of the poem to fetch </p>
+   
         <form onSubmit={this.handleSubmit}>
           <label>
             {"Enter the poem name: \t"}
@@ -63,11 +62,56 @@ class GetPoemForm extends React.Component {
   }
 }
 
+class GetPoemDisplayer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      lookupName: "0",
+    };
+    this.updateDisplayed = this.updateDisplayed.bind(this);
+  }
+
+  updateDisplayed(newLookupName) {
+    this.setState({lookupName: newLookupName});
+  }
+
+  render() {
+    return (
+    <div>
+      <GetPoemForm callback={this.updateDisplayed}/>
+      <strong>Fetched poem name: </strong>
+      {isNaN(Number(this.state.lookupName))
+        ? // conditional rendering
+        <div style={{color: "red"}}>A number, please!</div>
+        :
+        <DrizzleContext.Consumer>
+          {drizzleContext => {
+            const { drizzle, drizzleState, initialized } = drizzleContext;
+
+            return (
+              <ContractData
+              drizzle={drizzle}
+              drizzleState={drizzleState}
+              contract="poemContract"
+              method="getPoemName"
+              methodArgs={[this.state.lookupName]}
+              />
+            );
+          }}
+      
+      </DrizzleContext.Consumer>
+    }
+    </div>
+    );
+  }
+}
+
+
 class DrizzleReactComponent extends React.Component {
 
   render() {
     return(
-<DrizzleContext.Provider drizzle={drizzle}>
+    <DrizzleContext.Provider drizzle={drizzle}>
       <DrizzleContext.Consumer>
         {drizzleContext => {
           const { drizzle, drizzleState, initialized } = drizzleContext;
@@ -105,16 +149,6 @@ class DrizzleReactComponent extends React.Component {
                   sendArgs={{gas: 500000}}/>
 
                 <p>
-                  <strong>Fetched poem name: </strong>
-                  <ContractData
-                    drizzle={drizzle}
-                    drizzleState={drizzleState}
-                    contract="poemContract"
-                    method="getPoemName"
-                    methodArgs={[formValue]}
-                  />
-                </p> 
-                <p>
                   <strong>Total poems authored: </strong>
                   <ContractData
                     drizzle={drizzle}
@@ -126,6 +160,7 @@ class DrizzleReactComponent extends React.Component {
 
                 
               </div>
+              <GetPoemDisplayer/>
             </div>
           )
         }}
@@ -141,7 +176,6 @@ function App() {
     <div>
     <div style={{display: 'grid',  justifyContent:'center', alignItems:'center', height: 'auto'}}>
       <DrizzleReactComponent/>
-      <GetPoemForm/>
     </div>
 
 
