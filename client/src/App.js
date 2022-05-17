@@ -10,7 +10,7 @@ const { AccountData, ContractData, ContractForm } = newContextComponents;
 const options = {
   web3: {
     block: false,
-    customProvider: new Web3(Web3.givenProvider || "http://localhost:7545"),
+    customProvider: new Web3(Web3.givenProvider || "ws://localhost:7545"),
   },
   contracts: [poemContract],
   events: {
