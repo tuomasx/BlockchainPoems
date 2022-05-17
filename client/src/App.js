@@ -18,7 +18,8 @@ const options = {
   },
 };
 
-var formValue = localStorage.getItem('SelectedOption');
+//var formValue = localStorage.getItem('SelectedOption');
+let formValue = null;
 if (formValue == null) {
   formValue = 0;
 } 
