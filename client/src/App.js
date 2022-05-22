@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { DrizzleContext } from "@drizzle/react-plugin";
 import { Drizzle } from "@drizzle/store";
 import { newContextComponents } from "@drizzle/react-components";
@@ -35,7 +35,7 @@ class GetPoemForm extends React.Component {
     this.setState({ value: event.target.value });
   };
 
-  handleSubmit(event) {
+  handleSubmit = event => {
     this.props.callback(this.state.value);
     event.preventDefault();
   }
@@ -97,7 +97,7 @@ class GetPoemContentDisplayer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      lookupPoem: "",
+      lookupPoem: "nimi",
     };
     this.updateDisplayed = this.updateDisplayed.bind(this);
   }
@@ -121,7 +121,7 @@ class GetPoemContentDisplayer extends React.Component {
                 drizzle={drizzle}
                 drizzleState={drizzleState}
                 contract="poemContract"
-                method="getPoemContent"
+                method="poemContentByName"
                 methodArgs={[this.state.lookupPoem]}
               />
             );
@@ -203,7 +203,7 @@ class DrizzleReactComponent extends React.Component {
                   <AccountData
                     drizzle={drizzle}
                     drizzleState={drizzleState}
-                    accountIndex={1}
+                    accountIndex={0}
                     units="ether"
                     precision={3}
                   />
