@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import { DrizzleContext } from "@drizzle/react-plugin";
 import { Drizzle } from "@drizzle/store";
 import { newContextComponents } from "@drizzle/react-components";
