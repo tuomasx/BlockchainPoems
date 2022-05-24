@@ -97,7 +97,7 @@ class GetPoemContentDisplayer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      lookupPoem: "nimi",
+      lookupPoem: "",
     };
     this.updateDisplayed = this.updateDisplayed.bind(this);
   }
