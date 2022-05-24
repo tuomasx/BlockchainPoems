@@ -7,6 +7,8 @@ Installation and running
 truffle migrate
 
 on /client/
-    npm install
-    npm run start
+
+npm install
+
+npm run start
 
