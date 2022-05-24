@@ -1,4 +1,6 @@
-# DApp_example_geo
+#BlockchainPoems
 
-Smart contract example. IDs of found geocaches are stored on Ganache blockchain through a simple interface. 
+Smart contract application. Poems are stored in Ganache blockchain through a interface.
+
+
 
